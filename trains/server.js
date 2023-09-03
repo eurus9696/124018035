@@ -28,6 +28,7 @@ const getAccessToken = async () => {
 app.get('/trains', async (req, res) => {
     try {
         const accessToken = await getAccessToken();
+        const now=new Date();
 
         const trainApiResponse = await axios.get('http://20.244.56.144/train/trains', {
             headers: {
@@ -36,6 +37,7 @@ app.get('/trains', async (req, res) => {
         });
 
         const trainData = trainApiResponse.data;
+        console.log(accessToken);
 
         const twelveHoursLater = new Date(now.getTime() + 12 * 60 * 60 * 1000); // 12 hours in milliseconds
 
@@ -95,7 +97,6 @@ app.get('/trains/:trainNumber', async (req, res) => {
 
         const { trainNumber } = req.params;
 
-        // Fetch details for the specific train using the obtained access token
         const trainDetailResponse = await axios.get(`http://20.244.56.144/train/trains/${trainNumber}`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
